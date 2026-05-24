@@ -73,3 +73,7 @@ Bước 4: Cài đặt preview
 	Gán dòng sau vào cuối cùng, mục tiêu là sau 1 phút thì nó sẽ tạo preview một lần
 	*/1 * * * * docker exec -u www-data nextcloud_app_1 php occ preview:pre-generate >> /home/username/Documents/nextcloud/crontab_gen_preview/crontab.log 2>&1
 
+	sudo cloudflared tunnel --url http://192.168.0.6:8080
+	sudo docker exec -it -u www-data nextcloud_app_1 php occ config:system:set trusted_domains 1 --
+value=tiger-related-blades-completing.trycloudflare.com
+
