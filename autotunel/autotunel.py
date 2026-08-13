@@ -115,6 +115,20 @@ def send_telegram(message):
     print(
         f"❌ Đã thử gửi Telegram {max_retries} lần nhưng vẫn thất bại"
     )
+
+    # Reset service autotunel.service if Telegram sending fails after max retries
+    try:
+        subprocess.run(
+            ["systemctl", "restart", "autotunel.service"],
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=30
+        )
+        print("✅ Đã chạy lệnh: systemctl restart autotunel.service")
+    except Exception as e:
+        print("❌ Không thể chạy lệnh restart autotunel.service:", e)
+    
     return False
 
 
