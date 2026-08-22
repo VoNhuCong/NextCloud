@@ -116,7 +116,14 @@ def send_telegram(message):
         f"❌ Đã thử gửi Telegram {max_retries} lần nhưng vẫn thất bại"
     )
 
-    # Reset service autotunel.service if Telegram sending fails after max retries
+    restart_service()
+    
+    return False
+
+# ============================================================
+# RESTART SERVICE
+# ============================================================
+def restart_service():
     try:
         subprocess.run(
             ["systemctl", "restart", "autotunel.service"],
@@ -128,9 +135,6 @@ def send_telegram(message):
         print("✅ Đã chạy lệnh: systemctl restart autotunel.service")
     except Exception as e:
         print("❌ Không thể chạy lệnh restart autotunel.service:", e)
-    
-    return False
-
 
 # ============================================================
 # STOP CLOUDFLARED
@@ -244,6 +248,17 @@ def start_cloudflared():
     print("🌐 Cloudflare URL:")
     print(cloudflare_url)
     print("======================================")
+
+    # fix bug error generate url started
+    if "https://api.trycloudflare.com" == cloudflare_url:
+        print(
+            "❌ Cloudflare URL không hợp lệ"
+        )
+
+        stop_cloudflared()
+        restart_service()
+        return None
+    # Fix bug error generate url ended
 
     return cloudflare_url
 
