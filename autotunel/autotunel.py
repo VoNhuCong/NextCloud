@@ -12,23 +12,44 @@ import json
 import os
 import signal
 import sys
+from pathlib import Path
+
+
+def load_env_file():
+    env_path = Path(__file__).resolve().parent / ".env"
+
+    if not env_path.exists():
+        return
+
+    for line in env_path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+
+        key, value = line.split("=", 1)
+        key = key.strip()
+        value = value.strip()
+
+        if value.startswith('"') and value.endswith('"'):
+            value = value[1:-1]
+        elif value.startswith("'") and value.endswith("'"):
+            value = value[1:-1]
+
+        os.environ.setdefault(key, value)
+
+
+load_env_file()
 
 # ============================================================
 # CONFIG
 # ============================================================
 
-NEXTCLOUD_CONTAINER = "nextcloud_app_1"
-NEXTCLOUD_URL = "http://192.168.0.6:8080"
+NEXTCLOUD_CONTAINER = os.getenv("NEXTCLOUD_CONTAINER", "nextcloud_app_1")
+NEXTCLOUD_URL = os.getenv("NEXTCLOUD_URL", "http://192.168.0.6:8080")
 
-TELEGRAM_BOT_TOKEN = os.getenv(
-    "TELEGRAM_BOT_TOKEN",
-    "7726886920:cfgjbj"
-)
-
-TELEGRAM_CHAT_ID = os.getenv(
-    "TELEGRAM_CHAT_ID",
-    "678945678"
-)
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "")
 
 CHECK_INTERVAL = 5
 
@@ -111,13 +132,13 @@ def send_telegram(message):
 
         if attempt < max_retries:
             time.sleep(5)
-            
+
     print(
-        f"❌ Đã thử gửi Telegram {max_retries} lần nhưng vẫn thất bại"
+        f"❌ Đã thử gửi Telegram {max_retries} lần nhưng vẫn thất bại. Reset service right now..."
     )
 
     restart_service()
-    
+
     return False
 
 # ============================================================
