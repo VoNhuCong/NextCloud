@@ -22,18 +22,14 @@ sudo docker exec -it -u 0 nextcloud_app_1 bash
 Sau khi vào được container thì chạy lệnh sau  
 ```
 apt update && apt install -y libmagickwand-dev imagemagick ghostscript ffmpeg && rm -rf /var/lib/apt/lists/*
-```
-Hoặc lệnh gộp chung
-```
-sudo docker exec -it -u www-data nextcloud_app_1 apt update && apt install -y libmagickwand-dev imagemagick ghostscript ffmpeg && rm -rf /var/lib/apt/lists/*
-```  
+``` 
 4.2 Cài đặt các định dạng cần gen preview  
 ```
 sudo docker exec -it -u www-data nextcloud_app_1 php occ config:system:set enabledPreviewProviders 0 --value="OC\Preview\Movie"
 sudo docker exec -it -u www-data nextcloud_app_1 php occ config:system:set enabledPreviewProviders 1 --value="OC\Preview\PNG"
 sudo docker exec -it -u www-data nextcloud_app_1 php occ config:system:set enabledPreviewProviders 2 --value="OC\Preview\JPEG"
 sudo docker exec -it -u www-data nextcloud_app_1 php occ config:system:set enabledPreviewProviders 3 --value="OC\Preview\GIF"
-sudo docker exec -it -u www-data nextclou _app_1 php occ config:system:set enabledPreviewProviders 4 --value="OC\Preview\BMP"
+sudo docker exec -it -u www-data nextcloud_app_1 php occ config:system:set enabledPreviewProviders 4 --value="OC\Preview\BMP"
 sudo docker exec -it -u www-data nextcloud_app_1 php occ config:system:set enabledPreviewProviders 5 --value="OC\Preview\XBitmap"
 sudo docker exec -it -u www-data nextcloud_app_1 php occ config:system:set enabledPreviewProviders 6 --value="OC\Preview\MP3"
 sudo docker exec -it -u www-data nextcloud_app_1 php occ config:system:set enabledPreviewProviders 7 --value="OC\Preview\TXT"
