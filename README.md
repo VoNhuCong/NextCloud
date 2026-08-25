@@ -59,3 +59,7 @@ Gán dòng sau vào cuối cùng, mục tiêu là sau 1 phút thì nó sẽ tạ
 sudo cloudflared tunnel --url http://192.168.0.6:8080
 sudo docker exec -it -u www-data nextcloud_app_1 php occ config:system:set trusted_domains 1 --value=tiger-related-blades-completing.trycloudflare.com
 ```
+4.7 Lệnh set trust domain
+```
+sudo docker exec -u www-data nextcloud_app_1 php occ config:system:set trusted_domains f --value=yourdomain
+```
