@@ -79,7 +79,8 @@ curl -fsSL https://tailscale.com/install.sh | sh
 ```
 sudo tailscale up
 ```
-Hãy copy link mà tailscale log ra và mở trên browser mà bạn đã login tài khoản tailscale để đăng ký device
+Hãy copy link mà tailscale log ra và mở trên browser mà bạn đã login tài khoản tailscale để đăng ký device  
+
 3. Kiểm tra trạng thái và set khởi động cho tailscalse
 ```
 sudo tailscale status
